@@ -1,0 +1,69 @@
+clase Prenda{
+	var property precioPropio;
+	var estadoPrenda;
+	var tipoPrenda;
+	
+	method precio()= estadoPrenda.precio(precioPropio)
+	
+	
+}
+
+
+// Represento los estadoPrenda como un objeto (composición) porque considero que el estado podria llegar a cambiar.
+
+class Estado{
+	method precio(precioBase);
+}
+
+object nueva inherits Estado{
+		override method precio(precioBase)= precioBase;
+
+}
+class Promocion inherits Estado{
+	var descuentoFijo;
+override method precio(precioBase)= precioBase - descuentoFijo;
+
+}
+object liquidacion inherits Estado{
+	override method precio(precioBase)= precioBase * 0.5;
+
+}
+----------------------------------------------------------------
+
+class VentaEfectivo{
+	var listaProductos = [];
+	var property fecha;
+	
+	method precioTotalVenta(){
+      return listaProductos.sum({producto => producto.precio()}
+	}
+	method registrarVenta(){
+		macowins.registrarVenta(self)
+	}
+	method cantidadProductos(){
+		return listaProductos.size()
+	}
+}
+
+class VentaTarjeta inherits VentaEfectivo{
+	var coeficienteFijo;
+	var cantidadCuotas;
+
+	override method precioTotalVenta(){
+	return super()*0.01 + cantidadCuotas * coeficienteFijo
+ }
+}
+
+object macowins {
+	var ventas = [];
+
+	method gananciaDe(fecha){
+	const ventasDia = 
+		  ventas.filter({venta => venta.fecha() == fecha})
+
+	return ventasDia.sum({venta =>venta.precioTotalVenta()})
+ }
+	method registrarVenta(venta){
+	  ventas.add(venta)
+	}
+}
